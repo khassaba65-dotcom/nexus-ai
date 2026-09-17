@@ -87,6 +87,7 @@ body.light .msg .bubble{background:#fff;border-color:#e0e5f0}
 .msg .meta-row .tag.acc{border-color:#7c5cff;color:#7c5cff}
 .msg .meta-row .tag.suc{border-color:#10b981;color:#10b981}
 .msg .meta-row .tag.warn{border-color:#f59e0b;color:#f59e0b}
+.msg .meta-row .tag.wassam{background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff;border-color:transparent}
 .msg .bubble .actions{display:flex;gap:3px;margin-top:6px;flex-wrap:wrap}
 .msg.user .bubble .actions{display:none}
 .msg .bubble .actions button{background:#1a1e33;border:1px solid #2a2f4a;color:#8892b8;padding:2px 6px;border-radius:5px;font-size:9.5px;font-weight:600;cursor:pointer}
@@ -210,6 +211,7 @@ body.light .switch{background:#f1f4fb;border-color:#e0e5f0}
 body.light .btnrow button{background:#f1f4fb;border-color:#e0e5f0}
 .btnrow button:active{transform:scale(.97)}
 .btnrow button.primary{background:linear-gradient(135deg,#7c5cff,#4facfe);color:#fff;border-color:transparent}
+.btnrow button.wassam{background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff;border-color:transparent}
 .btnrow button.danger{border-color:#ef4444;color:#ef4444}
 .btnrow button.danger:active{background:#ef4444;color:#fff}
 .file-label{flex:1 1 calc(50% - 3px);min-width:95px;padding:8px 10px;border-radius:8px;background:#232842;border:1px solid #2a2f4a;color:inherit;font-weight:700;font-size:11.5px;cursor:pointer;display:inline-flex;align-items:center;justify-content:center;gap:5px}
@@ -395,6 +397,60 @@ body.light .toast{background:#fff;border-color:#e0e5f0}
       <button class="danger" id="clearAllBtn" type="button">🗑 تصفير كامل</button>
     </div>
 
+    <h3 style="margin-top:16px;font-size:13px;border:0;padding-bottom:4px;display:flex;align-items:center;gap:6px">
+      <span style="background:linear-gradient(135deg,#ec4899,#8b5cf6);-webkit-background-clip:text;background-clip:text;color:transparent;font-weight:900">🧬 صانع الموديل</span>
+      <span style="background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:900">وسام</span>
+    </h3>
+    <div style="background:linear-gradient(135deg,rgba(236,72,153,.08),rgba(139,92,246,.05));border:1px solid rgba(236,72,153,.25);border-radius:10px;padding:10px;margin-bottom:8px">
+      <div style="font-size:11px;color:#8892b8;margin-bottom:8px;line-height:1.5">
+        ✨ أنشئ موديلك المخصص: اسم، وصف، قواعد، أمثلة. سيُحفظ ويُستخدم في كل محادثة جديدة.
+      </div>
+
+      <div class="setting" style="padding:6px 0">
+        <div class="setting-info"><label>📛 اسم الموديل</label></div>
+        <input type="text" id="mmName" placeholder="مثال: موديل وسام العربي" style="min-width:130px">
+      </div>
+
+      <div class="setting" style="padding:6px 0">
+        <div class="setting-info"><label>📝 وصف مختصر</label></div>
+        <input type="text" id="mmDesc" placeholder="مثال: مساعد طبي متخصص" style="min-width:130px">
+      </div>
+
+      <div class="setting" style="padding:6px 0;flex-direction:column;align-items:stretch">
+        <label style="font-weight:700;font-size:12px;margin-bottom:5px">🎭 System Prompt (شخصية الموديل)</label>
+        <textarea id="mmPrompt" style="background:#232842;border:1px solid #2a2f4a;border-radius:7px;padding:8px;font-size:11.5px;color:inherit;min-height:80px;font-family:inherit;resize:vertical" placeholder="أنت خبير في..."></textarea>
+      </div>
+
+      <div class="setting" style="padding:6px 0;flex-direction:column;align-items:stretch">
+        <label style="font-weight:700;font-size:12px;margin-bottom:5px">🎯 أمثلة تدريبية (سطر لكل مثال: سؤال|جواب)</label>
+        <textarea id="mmExamples" style="background:#232842;border:1px solid #2a2f4a;border-radius:7px;padding:8px;font-size:11px;color:inherit;min-height:100px;font-family:monospace;resize:vertical;direction:rtl" placeholder="ما هي عاصمة مصر؟|القاهرة
+اكتب دالة جمع|def add(a,b):return a+b"></textarea>
+      </div>
+
+      <div class="setting" style="padding:6px 0">
+        <div class="setting-info"><label>🌡️ درجة الإبداع</label><small>0 = دقيق، 100 = مبدع</small></div>
+        <input type="range" id="mmTemp" min="0" max="100" value="60" style="width:100px">
+        <span id="mmTempVal" style="font-size:11px;color:#8892b8;min-width:30px">60</span>
+      </div>
+
+      <div class="btnrow" style="margin-top:10px">
+        <button class="wassam" id="mmSaveBtn" type="button">💾 حفظ الموديل</button>
+        <button id="mmLoadBtn" type="button">📂 تحميل</button>
+      </div>
+      <div class="btnrow">
+        <button id="mmExportBtn" type="button">⬇ تصدير JSON</button>
+        <label class="file-label">⬆ استيراد JSON
+          <input type="file" id="mmImportInput" accept=".json">
+        </label>
+      </div>
+      <div class="btnrow">
+        <button class="danger" id="mmDeleteBtn" type="button">🗑 حذف الموديل</button>
+        <button id="mmTestBtn" type="button">🧪 تجربة</button>
+      </div>
+
+      <div id="mmStatus" style="margin-top:8px;font-size:10.5px;color:#8892b8;text-align:center;line-height:1.5"></div>
+    </div>
+
     <div id="kbStats" style="margin-top:10px;font-size:11px;color:#8892b8;text-align:center"></div>
     <div id="dbStatus" style="margin-top:4px;font-size:10px;color:#5a6488;text-align:center"></div>
   </div>
@@ -441,7 +497,8 @@ var state={
   autoWeb:localStorage.getItem('autoWeb')!=='false',
   smartTokens:localStorage.getItem('smartTokens')!=='false',
   contextLimit:Number(localStorage.getItem('contextLimit'))||6,
-  searchMatches:[],searchIndex:0
+  searchMatches:[],searchIndex:0,
+  customModelName:'',customModelDesc:'',modelExamples:''
 };
 var DB_NAME='nexus_v10',STORE='kb',CONV_STORE='conversations';
 
@@ -550,7 +607,7 @@ function isMathQuery(text){
   return false;
 }
 
-/* ═══ Smart Tokens (#24) ═══ */
+/* ═══ Smart Tokens ═══ */
 function smartMaxTokens(text, intent){
   if(!state.smartTokens) return 2048;
   var len = text.length;
@@ -603,7 +660,14 @@ function withTimeout(p,ms,fb){
   return Promise.race([p,new Promise(function(_,rej){setTimeout(function(){rej(new Error('timeout'))},ms)})]).catch(function(e){console.warn('timeout:',e.message);return fb});
 }
 async function requestPersistent(){
-  try{if(navigator.storage&&navigator.storage.persist)return await navigator.storage.persist()}catch(e){}
+  try{
+    if(navigator.storage&&navigator.storage.persist){
+      var already=await navigator.storage.persisted();
+      if(already)return true;
+      var granted=await navigator.storage.persist();
+      if(granted)return true;
+    }
+  }catch(e){}
   return false;
 }
 function openDB(){
@@ -662,6 +726,42 @@ function dbClear(store){
 function indexRecord(r){var a=state.exactIndex.get(r.q);if(a)a.push(r);else state.exactIndex.set(r.q,[r])}
 function rebuildIndex(){state.exactIndex=new Map();for(var i=0;i<state.records.length;i++)indexRecord(state.records[i])}
 
+/* ═══ Cache Backup ═══ */
+var BACKUP_CACHE='nexus-backup-v1';
+var BACKUP_KEY='/nexus-backup.json';
+async function backupToCache(){
+  try{
+    var cache=await caches.open(BACKUP_CACHE);
+    var data={records:state.records,conversations:state.conversations,ratings:state.ratings,timestamp:Date.now(),version:10,count:state.records.length};
+    var blob=new Blob([JSON.stringify(data)],{type:'application/json'});
+    var response=new Response(blob,{headers:{'Content-Type':'application/json','X-Timestamp':Date.now()+'','X-Count':data.count+''}});
+    await cache.put(BACKUP_KEY,response);
+    localStorage.setItem('lastBackup',Date.now()+'');
+    localStorage.setItem('lastBackupCount',data.count+'');
+    console.log('✅ Backup: '+data.count+' records');
+    return true;
+  }catch(e){console.warn('❌ Backup failed:',e.message);return false}
+}
+async function restoreFromCache(){
+  try{
+    var cache=await caches.open(BACKUP_CACHE);
+    var response=await cache.match(BACKUP_KEY);
+    if(!response)return null;
+    var json=await response.text();
+    var data=JSON.parse(json);
+    console.log('📦 Backup found: '+(data.records||[]).length+' records');
+    return data;
+  }catch(e){console.warn('❌ Restore failed:',e.message);return null}
+}
+async function getBackupInfo(){
+  try{
+    var cache=await caches.open(BACKUP_CACHE);
+    var response=await cache.match(BACKUP_KEY);
+    if(!response)return null;
+    return{timestamp:Number(response.headers.get('X-Timestamp')),count:Number(response.headers.get('X-Count'))};
+  }catch(e){return null}
+}
+
 /* ═══ Markdown ═══ */
 function markdown(text){
   try{
@@ -715,7 +815,7 @@ function rateMessage(id,val,el){
   el.querySelectorAll('[data-act="up"],[data-act="down"]').forEach(function(b){b.classList.remove('on')});
   el.querySelector('[data-act="'+val+'"]').classList.add('on');
   haptic('light');
-  toast(val==='up'?'شكراً لتقييمك 👍':'سأتحسّن 🤔','ok');
+  toast(val==='up'?'شكراً 👍':'سأتحسّن 🤔','ok');
 }
 function addTypingMsg(){
   var el=document.createElement('div');
@@ -749,18 +849,14 @@ function renderThinkPanel(steps){
   return h+'</div></div>';
 }
 
-/* ═══ Long Press (#36) ═══ */
+/* ═══ Long Press ═══ */
 function attachLongPress(el){
   var bubble=el.querySelector('.bubble');
   if(!bubble)return;
-  var timer=null;
-  var startX=0,startY=0;
+  var timer=null,startX=0,startY=0;
   bubble.addEventListener('touchstart',function(e){
     startX=e.touches[0].clientX;startY=e.touches[0].clientY;
-    timer=setTimeout(function(){
-      haptic('medium');
-      showLongMenu(e.touches[0].clientX,e.touches[0].clientY,bubble);
-    },550);
+    timer=setTimeout(function(){haptic('medium');showLongMenu(e.touches[0].clientX,e.touches[0].clientY,bubble)},550);
   },{passive:true});
   bubble.addEventListener('touchmove',function(e){
     var dx=Math.abs(e.touches[0].clientX-startX);
@@ -771,45 +867,36 @@ function attachLongPress(el){
   bubble.addEventListener('contextmenu',function(e){e.preventDefault()});
 }
 function showLongMenu(x,y,bubble){
-  var menu=$('longMenu');
-  var text=bubble.textContent;
+  var menu=$('longMenu');var text=bubble.textContent;
   menu.innerHTML=
     '<button onclick="lmCopy('+JSON.stringify(text).replace(/"/g,'&quot;')+');closeLongMenu()">📋 نسخ</button>'+
     '<button onclick="lmQuote();closeLongMenu()">💬 اقتباس</button>'+
     '<button onclick="lmSave();closeLongMenu()">⭐ حفظ</button>'+
     '<button onclick="lmSelectAll();closeLongMenu()">✂️ تحديد</button>';
-  var maxX=window.innerWidth-160;
-  var maxY=window.innerHeight-200;
-  menu.style.left=Math.min(x,maxX)+'px';
-  menu.style.top=Math.min(y,maxY)+'px';
+  var maxX=window.innerWidth-160,maxY=window.innerHeight-200;
+  menu.style.left=Math.min(x,maxX)+'px';menu.style.top=Math.min(y,maxY)+'px';
   menu.classList.add('show');
-  setTimeout(function(){
-    document.addEventListener('click',closeLongMenu,{once:true});
-    document.addEventListener('touchstart',closeLongMenu,{once:true});
-  },50);
+  setTimeout(function(){document.addEventListener('click',closeLongMenu,{once:true});document.addEventListener('touchstart',closeLongMenu,{once:true})},50);
 }
 function closeLongMenu(){var m=$('longMenu');if(m)m.classList.remove('show')}
 function lmCopy(text){navigator.clipboard.writeText(text).then(function(){toast('تم النسخ ✓','ok')})}
 function lmQuote(){var i=$('input');if(i){i.value='> '+$('input').value;i.focus()}}
-function lmSave(){toast('⭐ محفوظ في المفضلة','ok');var favs=JSON.parse(localStorage.getItem('favorites')||'[]');favs.push(new Date().toISOString());localStorage.setItem('favorites',JSON.stringify(favs))}
+function lmSave(){toast('⭐ محفوظ','ok')}
 function lmSelectAll(){if(window.getSelection){var s=window.getSelection();var r=document.createRange();r.selectNodeContents(event.target);s.removeAllRanges();s.addRange(r)}}
 
-/* ═══ Swipe Gestures (#35) ═══ */
+/* ═══ Swipe ═══ */
 var swipe={x:0,y:0,active:false};
-document.addEventListener('touchstart',function(e){
-  swipe.x=e.touches[0].clientX;swipe.y=e.touches[0].clientY;swipe.active=true;
-},{passive:true});
+document.addEventListener('touchstart',function(e){swipe.x=e.touches[0].clientX;swipe.y=e.touches[0].clientY;swipe.active=true},{passive:true});
 document.addEventListener('touchend',function(e){
   if(!swipe.active)return;swipe.active=false;
-  var dx=e.changedTouches[0].clientX-swipe.x;
-  var dy=e.changedTouches[0].clientY-swipe.y;
+  var dx=e.changedTouches[0].clientX-swipe.x,dy=e.changedTouches[0].clientY-swipe.y;
   if(Math.abs(dy)>Math.abs(dx))return;
   if(Math.abs(dx)<80)return;
   if(dx>0&&swipe.x<50)document.getElementById('sidebar').classList.add('open');
   if(dx<0&&document.getElementById('sidebar').classList.contains('open'))document.getElementById('sidebar').classList.remove('open');
 },{passive:true});
 
-/* ═══ Quick Menu (#37) ═══ */
+/* ═══ Quick Menu ═══ */
 function toggleQuickMenu(){var m=$('quickMenu');if(m)m.classList.toggle('show')}
 document.addEventListener('click',function(e){
   var m=$('quickMenu'),f=$('quickFab');
@@ -818,7 +905,7 @@ document.addEventListener('click',function(e){
 
 /* ═══ New Chat ═══ */
 function newChat(){
-  if(state.chatLog.length>0&&!confirm('ابدأ محادثة جديدة؟ سيتم حفظ الحالية في السجل.'))return;
+  if(state.chatLog.length>0&&!confirm('ابدأ محادثة جديدة؟ سيتم حفظ الحالية.'))return;
   saveConversation();
   $('chat').innerHTML='<div class="welcome" id="welcome"><div class="hero">⚡</div><h2>محادثة جديدة</h2><p>اكتب رسالتك للبدء</p></div>';
   state.chatLog=[];state.currentConv=null;
@@ -847,14 +934,11 @@ BM25.prototype.search=function(query,limit){
   limit=limit||10;
   var qTokens=tokenize(query);
   if(!qTokens.length)return [];
-  var N=this.docs.length;
-  var scores=[];
+  var N=this.docs.length,scores=[];
   for(var i=0;i<this.docs.length;i++){
-    var doc=this.docs[i];
-    var score=0;
+    var doc=this.docs[i],score=0;
     for(var j=0;j<qTokens.length;j++){
-      var q=qTokens[j];
-      var tf=doc.tf.get(q)||0;
+      var q=qTokens[j];var tf=doc.tf.get(q)||0;
       if(!tf)continue;
       var df=this.df.get(q)||1;
       var idf=Math.log(1+(N-df+0.5)/(df+0.5));
@@ -868,7 +952,6 @@ BM25.prototype.search=function(query,limit){
 };
 var bm25=null;
 
-/* ═══ BM25 Async — يحل مشكلة التجميد ═══ */
 async function buildBM25Async(){
   bm25=new BM25();
   var total=state.records.length;
@@ -880,23 +963,14 @@ async function buildBM25Async(){
       var r=state.records[j];
       bm25.add({text:r.q+' '+r.reply,record:r});
     }
-    setStatus('🧠 فهرس البحث: '+Math.round(end/total*100)+'% ('+fmt(end)+'/'+fmt(total)+')');
+    setStatus('🧠 فهرس: '+Math.round(end/total*100)+'% ('+fmt(end)+'/'+fmt(total)+')');
     await yieldToBrowser(30);
   }
   setStatus('جاهز');
 }
-function rebuildBM25(){
-  // بنسخة سريعة (بدون انتظار) للاستخدام العادي
-  bm25=new BM25();
-  for(var i=0;i<state.records.length;i++){
-    bm25.add({text:state.records[i].q+' '+state.records[i].reply,record:state.records[i]});
-  }
-}
 
 /* ═══ File Parsing ═══ */
-if(typeof pdfjsLib!=='undefined'){
-  try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.worker.min.js'}catch(e){}
-}
+if(typeof pdfjsLib!=='undefined'){try{pdfjsLib.GlobalWorkerOptions.workerSrc='https://cdn.jsdelivr.net/npm/pdfjs-dist@4.0.379/build/pdf.worker.min.js'}catch(e){}}
 function fileIcon(name){
   var ext=name.split('.').pop().toLowerCase();
   if(ext==='pdf')return '📄';if(ext==='docx'||ext==='doc')return '📝';
@@ -904,10 +978,8 @@ function fileIcon(name){
   if(['jpg','jpeg','png','webp','gif'].indexOf(ext)>=0)return '🖼️';
   if(ext==='json')return '🔧';if(ext==='csv')return '📋';return '📃';
 }
-
 function showImportProgress(show){
-  var el=$('importProgress');
-  if(!el)return;
+  var el=$('importProgress');if(!el)return;
   if(show)el.classList.add('show');
   else setTimeout(function(){el.classList.remove('show')},1500);
 }
@@ -918,13 +990,10 @@ function updateImportProgress(pct,text){
   if(txtEl)txtEl.textContent=text;
 }
 
-/* ═══ Handle Files مع yieldToBrowser — يحل مشكلة 100k ═══ */
 async function handleFiles(files){
   if(!files||!files.length)return;
   setStatus('معالجة '+files.length+' ملف...');
-  showImportProgress(true);
-  updateImportProgress(0,'بدء المعالجة...');
-
+  showImportProgress(true);updateImportProgress(0,'بدء المعالجة...');
   var fileList=Array.prototype.slice.call(files);
   var attachHTML='<div class="file-attach">';
   for(var i=0;i<fileList.length;i++){
@@ -935,7 +1004,6 @@ async function handleFiles(files){
   addUserMsg('📎 رفع '+files.length+' ملف'+attachHTML,{html:true});
 
   var totalAdded=0,batch=[];
-
   for(var j=0;j<fileList.length;j++){
     var file=fileList[j];
     setStatus('قراءة ('+(j+1)+'/'+fileList.length+') '+file.name);
@@ -965,8 +1033,7 @@ async function handleFiles(files){
         var buf3=await file.arrayBuffer();
         var wb=XLSX.read(buf3,{type:'array'});
         for(var si=0;si<wb.SheetNames.length;si++){
-          var sn=wb.SheetNames[si];
-          var sheet=wb.Sheets[sn];
+          var sn=wb.SheetNames[si],sheet=wb.Sheets[sn];
           var json=XLSX.utils.sheet_to_json(sheet,{header:1});
           text+='\n=== '+sn+' ===\n';
           for(var ri=0;ri<json.length;ri++){
@@ -1047,44 +1114,37 @@ async function handleFiles(files){
     }catch(e){console.error('File error:',e);toast('فشل '+file.name+': '+e.message,'err')}
   }
 
-  // ═══ الحفظ التدريجي مع yieldToBrowser ═══
   if(batch.length){
     setStatus('💾 حفظ '+fmt(batch.length)+' إدخال...');
     updateImportProgress(80,'حفظ البيانات...');
-
     if(state.dbOk){
       var savedSoFar=0;
       for(var bi=0;bi<batch.length;bi+=500){
         try{await dbAdd(STORE,batch.slice(bi,bi+500));savedSoFar+=Math.min(500,batch.length-bi)}
-        catch(e){console.error('DB save failed:',e);toast('فشل الحفظ — سيُحفظ مؤقتًا','warn');break}
-        var savePct=80+(savedSoFar/batch.length)*15;
-        updateImportProgress(savePct,'حفظ: '+fmt(savedSoFar)+'/'+fmt(batch.length));
-        await yieldToBrowser(20);  // ← المفتاح: يعطي المتصفح يتنفس
+        catch(e){console.error('DB save failed:',e);toast('فشل الحفظ','warn');break}
+        updateImportProgress(80+(savedSoFar/batch.length)*15,'حفظ: '+fmt(savedSoFar)+'/'+fmt(batch.length));
+        await yieldToBrowser(20);
       }
     }
-
-    // ═══ الفهرسة التدريجية ═══
     setStatus('📇 فهرسة...');
     for(var ii=0;ii<batch.length;ii++){
       indexRecord(batch[ii]);
       if(ii%5000===0){updateImportProgress(95+(ii/batch.length)*3,'فهرسة: '+fmt(ii)+'/'+fmt(batch.length));await yieldToBrowser(20)}
     }
     state.records=state.records.concat(batch);
-
-    // ═══ بناء BM25 في الخلفية ═══
     updateImportProgress(98,'🧠 فهرس البحث الذكي...');
-    setStatus('🧠 بناء فهرس البحث...');
-    toast('جاري تحضير البحث — الموقع سيعمل بعد قليل','warn');
+    toast('جاري تحضير البحث...','warn');
     await buildBM25Async();
-
+    updateImportProgress(99,'💾 نسخة احتياطية...');
+    var backupOk=await backupToCache();
     updateImportProgress(100,'✓ اكتمل');
-    toast('✓ '+fmt(totalAdded)+' إدخال جاهز','ok');
+    toast(backupOk?'✓ '+fmt(totalAdded)+' إدخال + نسخة':'✓ '+fmt(totalAdded)+' إدخال',backupOk?'ok':'warn');
     haptic('medium');
   }
   showImportProgress(false);
   setStatus('جاهز');
   updateKbStats();
-  addAIMsg('<p>✅ تم استيراد <b>'+fmt(totalAdded)+'</b> إدخال من '+files.length+' ملف.</p><p style="font-size:11.5px;color:#8892b8">اسألني في وضع <b>📚 من ملفاتي</b></p>',{tags:'<span class="tag suc">📚 استيراد</span>'});
+  addAIMsg('<p>✅ تم استيراد <b>'+fmt(totalAdded)+'</b> إدخال من '+files.length+' ملف.</p>',{tags:'<span class="tag suc">📚 استيراد</span>'});
 }
 
 /* ═══ LLM APIs ═══ */
@@ -1101,7 +1161,7 @@ async function callGroq(messages,maxTokens){
 }
 async function callGemini(messages){
   if(!state.geminiKey)throw new Error('أضف مفتاح Gemini');
-  var sys=null;var contents=[];
+  var sys=null,contents=[];
   for(var i=0;i<messages.length;i++){
     if(messages[i].role==='system')sys=messages[i];
     else contents.push({role:messages[i].role==='assistant'?'model':'user',parts:[{text:messages[i].content}]});
@@ -1140,7 +1200,7 @@ function buildRAGContext(query,limit){
   return{context:context,sources:hits.map(function(h){return{title:h.record.q,url:'#',q:h.record.q,score:h.score}}),hits:hits};
 }
 
-/* ═══ Web Search Engines ═══ */
+/* ═══ Web Search ═══ */
 async function jinaFetch(url,timeout){
   timeout=timeout||15000;
   var ctl=new AbortController();
@@ -1158,7 +1218,7 @@ async function searchWikipedia(query){
   var d=await r.json();
   var hits=(d&&d.query&&d.query.search)||[];
   if(!hits.length)return null;
-  var first=hits[0].title;var summary=null;
+  var first=hits[0].title,summary=null;
   try{var sr=await fetch('https://'+lang+'.wikipedia.org/api/rest_v1/page/summary/'+encodeURIComponent(first.replace(/ /g,'_'))+'?redirect=true');if(sr.ok)summary=await sr.json()}catch(e){}
   return{source:'Wikipedia',sourceUrl:'https://'+lang+'.wikipedia.org',summary:summary?{title:summary.title,extract:summary.extract,url:summary.content_urls&&summary.content_urls.desktop?summary.content_urls.desktop.page:''}:null,results:hits.map(function(h){return{title:h.title,snippet:String(h.snippet||'').replace(/<[^>]+>/g,''),url:'https://'+lang+'.wikipedia.org/wiki/'+encodeURIComponent(h.title.replace(/ /g,'_'))}})};
 }
@@ -1234,10 +1294,9 @@ async function expertSearch(query,push){
   return sources;
 }
 
-/* ═══ Search in Chat (#11) ═══ */
+/* ═══ Search in Chat ═══ */
 function toggleSearchChat(){
-  var el=$('searchChat');
-  if(!el)return;
+  var el=$('searchChat');if(!el)return;
   if(el.classList.contains('show'))closeSearchChat();
   else{el.classList.add('show');setTimeout(function(){$('searchInput').focus()},100)}
 }
@@ -1245,8 +1304,7 @@ function closeSearchChat(){
   var el=$('searchChat');if(el)el.classList.remove('show');
   var inp=$('searchInput');if(inp)inp.value='';
   document.querySelectorAll('.msg .bubble mark').forEach(function(m){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});
-  state.searchMatches=[];state.searchIndex=0;
-  updateSearchCount();
+  state.searchMatches=[];state.searchIndex=0;updateSearchCount();
 }
 function doSearchChat(q){
   document.querySelectorAll('.msg .bubble mark').forEach(function(m){var p=m.parentNode;p.replaceChild(document.createTextNode(m.textContent),m);p.normalize()});
@@ -1263,16 +1321,13 @@ function doSearchChat(q){
     var nodes=[],n;
     while(n=walker.nextNode())nodes.push(n);
     nodes.forEach(function(node){
-      var text=node.nodeValue;
-      var frag=document.createDocumentFragment();
-      var last=0,idx;
-      var low=text.toLowerCase();
+      var text=node.nodeValue,frag=document.createDocumentFragment();
+      var last=0,idx,low=text.toLowerCase();
       while((idx=low.indexOf(qLow,last))>=0){
         if(idx>last)frag.appendChild(document.createTextNode(text.slice(last,idx)));
         var mark=document.createElement('mark');
         mark.textContent=text.slice(idx,idx+q.length);
-        frag.appendChild(mark);
-        state.searchMatches.push(mark);
+        frag.appendChild(mark);state.searchMatches.push(mark);
         last=idx+q.length;
       }
       if(last<text.length)frag.appendChild(document.createTextNode(text.slice(last)));
@@ -1282,23 +1337,102 @@ function doSearchChat(q){
   if(state.searchMatches.length>0){state.searchIndex=0;scrollToMatch()}
   updateSearchCount();
 }
-function scrollToMatch(){
-  var m=state.searchMatches[state.searchIndex];
-  if(m)m.scrollIntoView({behavior:'smooth',block:'center'});
+function scrollToMatch(){var m=state.searchMatches[state.searchIndex];if(m)m.scrollIntoView({behavior:'smooth',block:'center'})}
+function searchNext(){if(!state.searchMatches.length)return;state.searchIndex=(state.searchIndex+1)%state.searchMatches.length;scrollToMatch();updateSearchCount()}
+function searchPrev(){if(!state.searchMatches.length)return;state.searchIndex=(state.searchIndex-1+state.searchMatches.length)%state.searchMatches.length;scrollToMatch();updateSearchCount()}
+function updateSearchCount(){var el=$('searchCnt');if(el)el.textContent=state.searchMatches.length?(state.searchIndex+1)+'/'+state.searchMatches.length:'0/0'}
+
+/* ═══ Model Maker — وسام ═══ */
+var MM_KEY='nexus_custom_model';
+function mmLoad(){
+  try{var data=localStorage.getItem(MM_KEY);if(!data)return null;return JSON.parse(data)}catch(e){return null}
 }
-function searchNext(){
-  if(!state.searchMatches.length)return;
-  state.searchIndex=(state.searchIndex+1)%state.searchMatches.length;
-  scrollToMatch();updateSearchCount();
+function mmSaveToStorage(model){
+  try{localStorage.setItem(MM_KEY,JSON.stringify(model));return true}
+  catch(e){console.warn('Save model failed:',e.message);return false}
 }
-function searchPrev(){
-  if(!state.searchMatches.length)return;
-  state.searchIndex=(state.searchIndex-1+state.searchMatches.length)%state.searchMatches.length;
-  scrollToMatch();updateSearchCount();
+function mmApplyModel(model){
+  if(!model)return;
+  if(model.prompt){state.systemPrompt=model.prompt;localStorage.setItem('systemPrompt',model.prompt)}
+  if(model.temp!==undefined){var tr=$('tempRange');if(tr)tr.value=model.temp}
+  if(model.examples)state.modelExamples=model.examples;
+  state.customModelName=model.name||'';
+  state.customModelDesc=model.desc||'';
 }
-function updateSearchCount(){
-  var el=$('searchCnt');
-  if(el)el.textContent=state.searchMatches.length?(state.searchIndex+1)+'/'+state.searchMatches.length:'0/0';
+function mmLoadFromStorage(){
+  var m=mmLoad();if(!m)return;
+  var mmName=$('mmName'),mmDesc=$('mmDesc'),mmPrompt=$('mmPrompt'),mmExamples=$('mmExamples'),mmTemp=$('mmTemp');
+  if(mmName)mmName.value=m.name||'';
+  if(mmDesc)mmDesc.value=m.desc||'';
+  if(mmPrompt)mmPrompt.value=m.prompt||'';
+  if(mmExamples)mmExamples.value=m.examples||'';
+  if(mmTemp)mmTemp.value=m.temp!==undefined?m.temp:60;
+  var tv=$('mmTempVal');if(tv&&mmTemp)tv.textContent=mmTemp.value;
+  mmApplyModel(m);mmUpdateStatus();
+}
+function mmUpdateStatus(){
+  var m=mmLoad(),el=$('mmStatus');
+  if(!el)return;
+  if(!m){el.innerHTML='⚠️ لا يوجد موديل محفوظ';return}
+  var date=m.savedAt?new Date(m.savedAt).toLocaleString('ar-EG'):'—';
+  var exCount=m.examples?m.examples.split('\n').filter(function(l){return l.trim()}).length:0;
+  el.innerHTML='<div style="display:flex;align-items:center;justify-content:center;gap:6px;flex-wrap:wrap">'+
+    '<span style="background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:900">وسام</span>'+
+    '<b style="color:#c9a6ff">'+esc(m.name||'بدون اسم')+'</b></div>'+
+    '<div style="margin-top:4px">📛 '+esc(m.name||'—')+' · 📝 '+esc(m.desc||'—')+'</div>'+
+    '<div>🎯 '+exCount+' مثال · 🌡️ '+m.temp+' · 📅 '+date+'</div>';
+}
+function mmSave(){
+  var name=($('mmName')?$('mmName').value:'').trim();
+  var desc=($('mmDesc')?$('mmDesc').value:'').trim();
+  var prompt=($('mmPrompt')?$('mmPrompt').value:'').trim();
+  var examples=($('mmExamples')?$('mmExamples').value:'').trim();
+  var temp=Number($('mmTemp')?$('mmTemp').value:60);
+  if(!name&&!prompt){toast('اكتب اسم أو prompt','warn');return}
+  var model={name:name||'موديل وسام',desc:desc||'',prompt:prompt,examples:examples,temp:temp,savedAt:Date.now(),badge:'وسام',version:10};
+  if(mmSaveToStorage(model)){
+    mmApplyModel(model);mmUpdateStatus();
+    toast('✓ حفظ الموديل — شارة وسام','ok');haptic('medium');
+  } else toast('فشل الحفظ','err');
+}
+function mmExport(){
+  var m=mmLoad();if(!m){toast('لا يوجد موديل','warn');return}
+  download(JSON.stringify(m,null,2),'model-wassam-'+Date.now()+'.json','application/json');
+  toast('✓ تم التصدير','ok');
+}
+function mmImport(file){
+  var reader=new FileReader();
+  reader.onload=function(e){
+    try{
+      var m=JSON.parse(e.target.result);
+      if(!m.name&&!m.prompt)throw new Error('ملف غير صالح');
+      if(mmSaveToStorage(m)){mmLoadFromStorage();toast('✓ تم الاستيراد','ok')}
+    }catch(err){toast('ملف غير صالح','err')}
+  };
+  reader.readAsText(file);
+}
+function mmDelete(){
+  if(!confirm('حذف الموديل؟'))return;
+  localStorage.removeItem(MM_KEY);
+  var ids=['mmName','mmDesc','mmPrompt','mmExamples'];
+  for(var i=0;i<ids.length;i++){var el=$(ids[i]);if(el)el.value=''}
+  state.customModelName='';state.customModelDesc='';state.modelExamples='';
+  mmUpdateStatus();toast('تم الحذف','ok');
+}
+function mmTest(){
+  var m=mmLoad();if(!m){toast('احفظ موديلاً أولاً','warn');return}
+  $('settingsSheet').classList.remove('open');
+  var html='<div style="background:linear-gradient(135deg,rgba(236,72,153,.1),rgba(139,92,246,.08));border:1px solid rgba(236,72,153,.3);border-radius:10px;padding:10px;margin-bottom:8px">'+
+    '<div style="display:flex;align-items:center;gap:6px;margin-bottom:6px">'+
+    '<span style="background:linear-gradient(135deg,#ec4899,#8b5cf6);color:#fff;padding:2px 8px;border-radius:10px;font-size:9px;font-weight:900">وسام</span>'+
+    '<b style="color:#c9a6ff">'+esc(m.name||'موديلك')+'</b></div>'+
+    '<div style="font-size:11px;color:#8892b8;line-height:1.6">'+esc(m.desc||'')+'</div></div>'+
+    '<p><b>🎭 Prompt:</b></p>'+
+    '<pre style="background:#0a0b14;border:1px solid #2a2f4a;border-radius:7px;padding:8px;font-size:11px;white-space:pre-wrap;word-wrap:break-word;max-height:200px;overflow-y:auto">'+esc(m.prompt||'(فارغ)')+'</pre>'+
+    (m.examples?'<p><b>🎯 أمثلة:</b></p><pre style="background:#0a0b14;border:1px solid #2a2f4a;border-radius:7px;padding:8px;font-size:11px;white-space:pre-wrap;word-wrap:break-word;max-height:150px;overflow-y:auto">'+esc(m.examples)+'</pre>':'')+
+    '<p style="font-size:11.5px;color:#8892b8">✅ الموديل مفعّل. سيُستخدم في كل محادثة.</p>';
+  addAIMsg(html,{tags:'<span class="tag wassam">🧬 موديل وسام</span>'});
+  toast('🎬 جرب أي سؤال','ok');
 }
 
 /* ═══ generateResponse ═══ */
@@ -1331,7 +1465,9 @@ async function generateResponse(userText,opts){
     if(hasLLM()){
       push('تحسين بـ LLM');
       try{
-        var ans=await callLLM([{role:'system',content:state.systemPrompt},{role:'user',content:'المعلومات:\n'+rag.context+'\n\nالسؤال: '+userText+'\n\nأجب بناءً عليها.'}],maxTokens);
+        var sc=state.systemPrompt;
+        if(state.modelExamples)sc+='\n\nأمثلة:\n'+state.modelExamples;
+        var ans=await callLLM([{role:'system',content:sc},{role:'user',content:'المعلومات:\n'+rag.context+'\n\nالسؤال: '+userText+'\n\nأجب بناءً عليها.'}],maxTokens);
         push('تم',true);
         return{html:(mode==='think'?renderThinkPanel(steps):'')+'<p>'+markdown(ans)+'</p>'+renderSources(rag.sources),tags:'<span class="tag suc">📚 '+rag.hits.length+'</span><span class="tag acc">🧠 LLM</span>',steps:steps,sources:rag.sources};
       }catch(e){push('فشل LLM',true)}
@@ -1346,17 +1482,46 @@ async function generateResponse(userText,opts){
   push('النية: '+intent.k,true);
   push('المشاعر: '+mood.k,true);
 
-  // 3) خبير
+  // 3) خبير — الملفات أولاً، ثم الويب
   if(mode==='expert'){
-    push('🎓 وضع الخبير — 15 محرك',true);
+    push('🎓 وضع الخبير');
     var expertContext='';
+    var fileScore=0;
+    var topFileReply='';
     if(kbHits.length){
-      push('📚 '+kbHits.length+' من ملفاتي',true);
+      push('📚 البحث في ملفاتك ('+kbHits.length+' نتيجة)',true);
       expertContext+='=== من ملفاتك ===\n';
-      for(var kbi=0;kbi<kbHits.length;kbi++)expertContext+='س: '+kbHits[kbi].record.q+'\nج: '+kbHits[kbi].record.reply+'\n\n';
+      for(var kbi=0;kbi<kbHits.length;kbi++){
+        expertContext+='س: '+kbHits[kbi].record.q+'\nج: '+kbHits[kbi].record.reply+'\n\n';
+        if(kbHits[kbi].score>fileScore){
+          fileScore=kbHits[kbi].score;
+          topFileReply=kbHits[kbi].record.reply;
+        }
+      }
+    } else {
+      push('📚 لا نتائج في ملفاتك',true);
     }
+
+    // إذا الثقة عالية (score >= 0.7) → استخدم الملفات مباشرة
+    if(fileScore>=0.7 && kbHits.length>0){
+      push('✅ ثقة عالية — استخدم ملفاتك مباشرة',true);
+      var bestReply=topFileReply;
+      if(state.randomReply&&kbHits.length>1){
+        var fpool=kbHits.filter(function(h){return h.score>fileScore*0.85});
+        bestReply=fpool[Math.floor(Math.random()*fpool.length)].record.reply;
+      }
+      return{
+        html:renderThinkPanel(steps)+'<p>'+esc(bestReply).replace(/\n/g,'<br>')+'</p>'+renderSources(kbHits.map(function(h){return{title:h.record.q,score:h.score}})),
+        tags:'<span class="tag suc">📚 من ملفاتك</span><span class="tag acc">🎯 ثقة '+Math.round(fileScore*100)+'%</span>',
+        steps:steps,
+        sources:kbHits.map(function(h){return{title:h.record.q,score:h.score}})
+      };
+    }
+
+    // ملفاتك غير كافية → ابحث في 15 محرك
+    push('🌐 ملفاتك غير كافية — بحث في 15 محرك',true);
     var expertSources=await expertSearch(userText,push);
-    push('✓ '+expertSources.length+'/'+15+' محرك أعطى نتائج',true);
+    push('✓ '+expertSources.length+'/15 محرك أعطى نتائج',true);
     var allTexts=[];
     for(var esi=0;esi<expertSources.length;esi++){
       var src=expertSources[esi];
@@ -1366,18 +1531,25 @@ async function generateResponse(userText,opts){
       var ers=src.results||[];
       for(var eri=0;eri<ers.length;eri++)if(ers[eri].snippet&&ers[eri].snippet.length>40)allTexts.push({text:ers[eri].snippet,url:ers[eri].url,title:ers[eri].title,priority:1});
     }
-    push('📊 '+allTexts.length+' مصدر',true);
-    // رتّب حسب priority
+    push('📊 '+allTexts.length+' مصدر من الويب',true);
     allTexts.sort(function(a,b){return (b.priority||0)-(a.priority||0)});
     if(!allTexts.length&&!kbHits.length){
       return{html:renderThinkPanel(steps)+'<p>لم أجد معلومات كافية.</p>',tags:'<span class="tag warn">🎓 لا نتائج</span>',steps:steps};
     }
-    var finalContext=expertContext;
+    if(kbHits.length){
+      push('🔗 دمج ملفاتك + الويب',true);
+    }
+    var finalContext='';
+    if(expertContext) finalContext+='🏆 معلوماتك الخاصة (أولوية عالية):\n'+expertContext+'\n\n';
+    finalContext+='📡 معلومات الويب:\n';
     for(var ati=0;ati<Math.min(allTexts.length,20);ati++)finalContext+='\n['+(ati+1)+'] '+allTexts[ati].text.slice(0,600);
+
     if(hasLLM()){
       push('🧠 تركيب نهائي');
       try{
-        var finalAns=await callLLM([{role:'system',content:state.systemPrompt},{role:'user',content:'أنت خبير. لديك معلومات من '+expertSources.length+' مصدر.\n\n'+finalContext.slice(0,9000)+'\n\nالسؤال: '+userText+'\n\nأجب بدقة وشمول. استخدم النقاط والفقرات.'}],Math.max(maxTokens,3000));
+        var sc2=state.systemPrompt;
+        if(state.modelExamples)sc2+='\n\nأمثلة:\n'+state.modelExamples;
+        var finalAns=await callLLM([{role:'system',content:sc2},{role:'user',content:'أنت خبير. لديك معلومات من ملفات المستخدم ومن '+expertSources.length+' محرك بحث.\n\n'+finalContext.slice(0,9000)+'\n\nالسؤال: '+userText+'\n\nأجب بدقة وشمول. رتّب المعلومات. أعطِ أولوية لمعلومات الملفات إذا كانت موجودة.'}],Math.max(maxTokens,3000));
         push('✓',true);
         var srcLinks=[];
         for(var si=0;si<expertSources.length;si++){
@@ -1386,10 +1558,15 @@ async function generateResponse(userText,opts){
           var rs2=(s.results||[]).slice(0,2);
           for(var ri=0;ri<rs2.length;ri++)srcLinks.push({title:rs2[ri].title,url:rs2[ri].url});
         }
-        return{html:renderThinkPanel(steps)+'<p>'+markdown(finalAns)+'</p>'+renderSources(srcLinks.slice(0,12)),tags:'<span class="tag suc">🎓 خبير</span><span class="tag suc">🌐 '+expertSources.length+'/15</span>',steps:steps,sources:srcLinks};
+        return{html:renderThinkPanel(steps)+'<p>'+markdown(finalAns)+'</p>'+renderSources(srcLinks.slice(0,12)),tags:'<span class="tag suc">🎓 خبير</span><span class="tag suc">🌐 '+expertSources.length+'/15</span>'+(kbHits.length?'<span class="tag acc">📚 '+kbHits.length+'</span>':''),steps:steps,sources:srcLinks};
       }catch(e){push('فشل LLM',true)}
     }
-    var directHtml=renderThinkPanel(steps)+'<p><b>نتائج من '+expertSources.length+' مصدر:</b></p>';
+    var directHtml=renderThinkPanel(steps);
+    if(kbHits.length){
+      directHtml+='<p><b>📚 من ملفاتك:</b></p>';
+      for(var dki=0;dki<Math.min(kbHits.length,3);dki++)directHtml+='<p>'+esc(kbHits[dki].record.reply.slice(0,400))+'</p>';
+    }
+    directHtml+='<p><b>🌐 من '+expertSources.length+' محرك:</b></p>';
     for(var di=0;di<Math.min(allTexts.length,5);di++)directHtml+='<p>'+esc(allTexts[di].text.slice(0,500))+'</p>';
     directHtml+=renderSources(allTexts.slice(0,10).map(function(t){return{title:t.title,url:t.url}}));
     return{html:directHtml,tags:'<span class="tag suc">🎓 خبير</span>',steps:steps};
@@ -1410,13 +1587,17 @@ async function generateResponse(userText,opts){
     if(hasLLM()){
       push('LLM');
       try{
-        var msgs=[{role:'system',content:state.systemPrompt}];
+        var sc3=state.systemPrompt;
+        if(state.modelExamples)sc3+='\n\nأمثلة:\n'+state.modelExamples;
+        var msgs=[{role:'system',content:sc3}];
         var recent=state.chatLog.slice(-state.contextLimit);
         for(var ci=0;ci<recent.length;ci++)msgs.push({role:recent[ci].role==='user'?'user':'assistant',content:recent[ci].text});
         msgs.push({role:'user',content:userText});
         var a=await callLLM(msgs,maxTokens);
         push('تم',true);
-        return{html:renderThinkPanel(steps)+'<p>'+markdown(a)+'</p>',tags:'<span class="tag suc">🧠 LLM</span><span class="tag acc">'+maxTokens+'t</span>',steps:steps};
+        var tags='<span class="tag suc">🧠 LLM</span><span class="tag acc">'+maxTokens+'t</span>';
+        if(state.customModelName)tags+='<span class="tag wassam">🧬 '+esc(state.customModelName)+'</span>';
+        return{html:renderThinkPanel(steps)+'<p>'+markdown(a)+'</p>',tags:tags,steps:steps};
       }catch(e){push('فشل',true)}
     }
     if(state.autoWeb)return generateResponse(userText,{mode:'search'});
@@ -1518,8 +1699,7 @@ async function handleSend(){
   var text=input.value.trim();
   if(!text||state.busy)return;
   input.value='';input.style.height='auto';
-  addUserMsg(text);
-  addTypingMsg();
+  addUserMsg(text);addTypingMsg();
   state.busy=true;
   var sendBtn=$('sendBtn');
   sendBtn.textContent='⏹';sendBtn.classList.add('stop');
@@ -1530,10 +1710,8 @@ async function handleSend(){
     removeTyping();
     addAIMsg(resp.html,{tags:resp.tags,sources:resp.sources});
     haptic('medium');
-  }catch(e){
-    removeTyping();
-    addAIMsg('<p>❌ '+esc(e.message)+'</p>');
-  }finally{
+  }catch(e){removeTyping();addAIMsg('<p>❌ '+esc(e.message)+'</p>')}
+  finally{
     state.busy=false;
     sendBtn.textContent='➤';sendBtn.classList.remove('stop');sendBtn.onclick=handleSend;
     setStatus('جاهز');
@@ -1552,11 +1730,9 @@ function exportChatTxt(){
   download(txt,'nexus-chat.txt','text/plain');
 }
 function exportChatCSV(){
-  var csv='\uFEFF';
-  csv+='النوع,الوقت,النص\n';
+  var csv='\uFEFF';csv+='النوع,الوقت,النص\n';
   for(var i=0;i<state.chatLog.length;i++){
-    var m=state.chatLog[i];
-    var who=m.role==='user'?'أنا':'AI';
+    var m=state.chatLog[i],who=m.role==='user'?'أنا':'AI';
     var text=m.text.replace(/"/g,'""').replace(/\n/g,' ');
     csv+='"'+who+'","'+new Date().toISOString()+'","'+text+'"\n';
   }
@@ -1566,15 +1742,11 @@ async function exportChatPDF(){
   try{
     var L=window.jspdf;if(!L)throw new Error('jsPDF لم يُحمّل');
     var doc=new L.jsPDF({orientation:'p',unit:'mm',format:'a4'});
-    var pW=doc.internal.pageSize.getWidth();
-    var pH=doc.internal.pageSize.getHeight();
-    var y=20;
-    doc.setFontSize(16);
-    doc.text('Nexus AI — Chat Export',pW/2,10,{align:'center'});
+    var pW=doc.internal.pageSize.getWidth(),pH=doc.internal.pageSize.getHeight(),y=20;
+    doc.setFontSize(16);doc.text('Nexus AI — Chat Export',pW/2,10,{align:'center'});
     doc.setFontSize(10);
     for(var i=0;i<state.chatLog.length;i++){
-      var m=state.chatLog[i];
-      var who=m.role==='user'?'You':'AI';
+      var m=state.chatLog[i],who=m.role==='user'?'You':'AI';
       var lines=doc.splitTextToSize('['+who+'] '+m.text,pW-20);
       for(var j=0;j<lines.length;j++){if(y>pH-10){doc.addPage();y=20}doc.text(lines[j],10,y);y+=5}
       y+=3;
@@ -1583,33 +1755,22 @@ async function exportChatPDF(){
   }catch(e){toast('فشل: '+e.message,'err')}
 }
 function updateKbStats(){
-  var total=state.records.length;
-  var unique=state.exactIndex.size;
+  var total=state.records.length,unique=state.exactIndex.size;
   var ks=$('kbStats');if(ks)ks.textContent='📚 '+fmt(total)+' إدخال · '+fmt(unique)+' سؤال فريد';
   var ki=$('kbInfo');if(ki)ki.textContent='📚 '+fmt(total)+' إدخال';
   var rc=$('ragCount');if(rc)rc.textContent=fmt(total);
-  var di=$('dbInfo');
-  if(di){if(state.dbOk)di.textContent='✅ حفظ دائم';else di.textContent='⚠️ مؤقت'}
-  var ds=$('dbStatus');
-  if(ds){if(state.dbOk)ds.textContent='✅ التخزين الدائم مفعّل';else ds.textContent='⚠️ التخزين المؤقت فقط — البيانات ستضيع عند إغلاق الصفحة'}
+  var di=$('dbInfo');if(di){if(state.dbOk)di.textContent='✅';else di.textContent='⚠️'}
+  var ds=$('dbStatus');if(ds){if(state.dbOk)ds.textContent='✅ التخزين الدائم مفعّل';else ds.textContent='⚠️ التخزين المؤقت فقط'}
 }
 
-/* ═══ Voice Input (#16) ═══ */
-var recognition=null;
-var isRecording=false;
+/* ═══ Voice ═══ */
+var recognition=null,isRecording=false;
 function initVoice(){
   var R=window.SpeechRecognition||window.webkitSpeechRecognition;
   if(!R){toast('التعرف الصوتي غير مدعوم','warn');return false}
   recognition=new R();
-  recognition.lang='ar-SA';
-  recognition.continuous=false;
-  recognition.interimResults=false;
-  recognition.onresult=function(e){
-    var text=e.results[0][0].transcript;
-    var inp=$('input');
-    if(inp){inp.value=text;inp.focus()}
-    haptic('light');
-  };
+  recognition.lang='ar-SA';recognition.continuous=false;recognition.interimResults=false;
+  recognition.onresult=function(e){var text=e.results[0][0].transcript;var inp=$('input');if(inp){inp.value=text;inp.focus()}haptic('light')};
   recognition.onerror=function(e){isRecording=false;updateMicBtn();toast('خطأ: '+e.error,'err')};
   recognition.onend=function(){isRecording=false;updateMicBtn()};
   return true;
@@ -1620,12 +1781,7 @@ function toggleVoice(){
   else{try{recognition.start();isRecording=true;toast('🎤 تحدث الآن...','ok')}catch(e){toast('فشل: '+e.message,'err')}}
   updateMicBtn();
 }
-function updateMicBtn(){
-  var m=$('micBtn');
-  if(!m)return;
-  if(isRecording)m.classList.add('recording');
-  else m.classList.remove('recording');
-}
+function updateMicBtn(){var m=$('micBtn');if(!m)return;if(isRecording)m.classList.add('recording');else m.classList.remove('recording')}
 
 /* ═══ Theme ═══ */
 function toggleTheme(){
@@ -1693,10 +1849,15 @@ var ji=$('jsonInput');if(ji)ji.onchange=async function(e){
     var records=[];if(Array.isArray(data))records=data;else if(data.records)records=data.records;
     var b=records.map(function(x){return{q:normalize(x.q||x.question||''),reply:String(x.reply||x.answer||''),source:x.source||'JSON',created:Date.now()}}).filter(function(x){return x.q&&x.reply});
     showImportProgress(true);
-    for(var i=0;i<b.length;i+=500){if(state.dbOk){try{await dbAdd(STORE,b.slice(i,i+500))}catch(e){}}updateImportProgress(80+(i/b.length)*15,'حفظ: '+fmt(Math.min(i+500,b.length)));await yieldToBrowser(20)}
+    for(var i=0;i<b.length;i+=500){
+      if(state.dbOk){try{await dbAdd(STORE,b.slice(i,i+500))}catch(e){}}
+      updateImportProgress(80+(i/b.length)*15,'حفظ: '+fmt(Math.min(i+500,b.length)));
+      await yieldToBrowser(20);
+    }
     for(var j=0;j<b.length;j++)indexRecord(b[j]);
     state.records=state.records.concat(b);
     await buildBM25Async();
+    await backupToCache();
     updateKbStats();showImportProgress(false);
     toast('✓ '+fmt(b.length)+' إدخال','ok');
   }catch(err){toast('ملف غير صالح','err')}
@@ -1712,9 +1873,20 @@ var ck=$('clearKbBtn');if(ck)ck.onclick=async function(){
 var ca=$('clearAllBtn');if(ca)ca.onclick=async function(){
   if(!confirm('تصفير كامل؟ سيُحذف كل شيء.'))return;
   if(state.dbOk){try{await dbClear(STORE);await dbClear(CONV_STORE)}catch(e){}}
-  localStorage.clear();
-  location.reload();
+  try{var cache=await caches.open(BACKUP_CACHE);await cache.delete(BACKUP_KEY)}catch(e){}
+  localStorage.clear();location.reload();
 };
+
+/* Model Maker Wiring */
+var mmSaveBtn=$('mmSaveBtn');if(mmSaveBtn)mmSaveBtn.onclick=mmSave;
+var mmLoadBtn=$('mmLoadBtn');if(mmLoadBtn)mmLoadBtn.onclick=function(){mmLoadFromStorage();toast('تم التحميل','ok')};
+var mmExportBtn=$('mmExportBtn');if(mmExportBtn)mmExportBtn.onclick=mmExport;
+var mmDeleteBtn=$('mmDeleteBtn');if(mmDeleteBtn)mmDeleteBtn.onclick=mmDelete;
+var mmTestBtn=$('mmTestBtn');if(mmTestBtn)mmTestBtn.onclick=mmTest;
+var mmImportInput=$('mmImportInput');
+if(mmImportInput)mmImportInput.onchange=function(e){if(e.target.files[0])mmImport(e.target.files[0]);e.target.value=''};
+var mmTempEl=$('mmTemp');
+if(mmTempEl)mmTempEl.oninput=function(){var tv=$('mmTempVal');if(tv)tv.textContent=mmTempEl.value};
 
 var fSel=$('fontSel');
 var savedFont=localStorage.getItem('fontSize');
@@ -1728,21 +1900,72 @@ if(localStorage.getItem('theme')==='light')document.body.classList.add('light');
   setStatus('جارٍ التحميل...');
   await requestPersistent();
   try{await openDB()}catch(e){console.warn('DB init:',e.message);state.dbOk=false;state.dbError=e.message}
+
+  var loadedFromDB=false;
+
   if(state.dbOk){
     try{
       state.records=await dbAll(STORE);
       state.conversations=await dbAll(CONV_STORE);
+      if(state.records.length>0){
+        loadedFromDB=true;
+        rebuildIndex();
+        setStatus('🧠 بناء فهرس...');
+        await yieldToBrowser(100);
+        await buildBM25Async();
+        setStatus('جاهز — '+fmt(state.records.length)+' إدخال');
+      }
+    }catch(e){console.warn('DB load:',e.message)}
+  }
+
+  // إذا IndexedDB فاضي، حاول من Cache
+  if(!loadedFromDB){
+    setStatus('🔍 البحث عن نسخة احتياطية...');
+    var backup=await restoreFromCache();
+    if(backup&&backup.records&&backup.records.length>0){
+      setStatus('📦 استرجاع...');
+      state.records=backup.records;
+      state.conversations=backup.conversations||[];
+      state.ratings=backup.ratings||{};
       rebuildIndex();
-      setStatus('🧠 بناء فهرس البحث...');
+      if(state.dbOk){
+        try{
+          showImportProgress(true);
+          for(var i=0;i<state.records.length;i+=500){
+            await dbAdd(STORE,state.records.slice(i,i+500));
+            updateImportProgress(50+(i/state.records.length)*40,'كتابة: '+fmt(Math.min(i+500,state.records.length)));
+            await yieldToBrowser(20);
+          }
+          await dbClear(CONV_STORE);
+          if(state.conversations.length)await dbAdd(CONV_STORE,state.conversations.slice(-20));
+          showImportProgress(false);
+        }catch(e){console.warn(e);showImportProgress(false)}
+      }
+      setStatus('🧠 بناء فهرس...');
       await yieldToBrowser(100);
       await buildBM25Async();
+      toast('✓ تم استرجاع '+fmt(state.records.length)+' إدخال','ok');
       setStatus('جاهز');
-    }catch(e){console.warn('Load:',e.message);state.records=[];state.conversations=[];setStatus('جاهز (بدون حفظ)')}
-  } else {setStatus('جاهز (بدون حفظ)')}
+    } else {
+      setStatus('جاهز (بدون بيانات)');
+    }
+  }
+
   updateKbStats();
   renderHistory();
+  mmLoadFromStorage();
+  mmUpdateStatus();
+  updateBackupInfo();
+
   if(!state.dbOk)toast('التخزين المؤقت فقط','warn');
 })();
+
+async function updateBackupInfo(){
+  var info=await getBackupInfo();
+  var el=$('mmStatus');
+  // لا يعرض هنا، فقط log
+  if(info&&info.timestamp){console.log('📦 Backup: '+info.count+' from '+new Date(info.timestamp).toLocaleString())}
+}
 
 setInterval(async function(){
   if(state.dbOk&&state.conversations.length){
@@ -1750,11 +1973,24 @@ setInterval(async function(){
   }
 },30000);
 
-// Keyboard shortcuts
+setInterval(async function(){
+  if(state.records.length>0){
+    var lastBackup=Number(localStorage.getItem('lastBackup')||'0');
+    if(Date.now()-lastBackup>5*60*1000){
+      console.log('⏰ Auto-backup...');
+      await backupToCache();
+    }
+  }
+},60000);
+
+document.addEventListener('visibilitychange',function(){
+  if(document.hidden&&state.records.length>0)backupToCache();
+});
+
 document.addEventListener('keydown',function(e){
   if((e.ctrlKey||e.metaKey)&&e.key==='f'){e.preventDefault();toggleSearchChat()}
   if(e.key==='Escape'){closeSearchChat();closeLongMenu();var sb=$('sidebar');if(sb)sb.classList.remove('open');var sh=$('settingsSheet');if(sh)sh.classList.remove('open')}
 });
 </script>
 </body>
-  </html>
+    </html>
